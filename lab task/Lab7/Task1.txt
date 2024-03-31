@@ -1,0 +1,146 @@
+import {  Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome5 } from '@expo/vector-icons';
+import { useState } from "react";
+import { Modal } from "react-native-paper";
+const DiscountCalculator =()=>{
+    const [itemPrice, setItemPrice] = useState(0);
+    const [discountPercentage , setDiscountPercentage] = useState(0);
+    const [FinalPrice , setFinalPrice] = useState();
+    const[youSave,setYouSave] = useState();
+    const [history,setHistory] = useState([]);
+    const[isModalVisibal ,setModelVisibility ] = useState(false);
+
+
+    //calculate discount
+    const handleCalculate = ()=>{
+        let discount = discountPercentage /100;
+        let discountAmount = itemPrice * discount;
+        let finalPrice =  itemPrice - discountAmount;
+        setFinalPrice(finalPrice);
+        setYouSave(discountAmount);
+        setHistory([...history , {orignalPrice: itemPrice,discountper: discountPercentage,finalprice: finalPrice}]);
+        console.log(history);
+    }
+    //handle discount percentage to 1 to 100
+    const handleTextChange = (num) => {
+        // Check if the new text is a valid number
+        if(num ==0 ||num <=100){
+            setDiscountPercentage(num);
+        }else{
+            setDiscountPercentage(0);
+        }
+    }
+
+    //to show history
+    const showHistory=()=>{
+        setModelVisibility(true);
+        return(
+            <Modal
+                visible={isModalVisibal}
+                onRequestClose={()=>setModelVisibility(false)}
+                animationType='fade'
+            >
+                <TouchableOpacity
+                onPress={setModelVisibility(false)}
+                >
+                    <FontAwesome5 name="window-close" size={24} color="black" />
+                </TouchableOpacity>
+                <View>
+                    <Text>Original Price</Text>
+                    <Text>Discount</Text>
+                    <Text>Final Price</Text>
+                    {
+                        history.map((ele)=>{
+                            <Text>{ele}</Text>
+                        })
+                    }
+                </View>
+            </Modal>
+        
+        );
+    }
+return(
+    <SafeAreaView style={styles.mainView}>
+        <View  style={{flexDirection:"row" , flex:1, justifyContent: 'center', alignItems:'center'}}>
+            <TouchableOpacity
+                onPress={showHistory}
+            >
+                <FontAwesome5 name="history" size={24} color="black" />
+            </TouchableOpacity>
+           
+        </View>
+        <View style={styles.inputAreaView}>
+            <View style={{flex:3}}>
+                <TextInput placeholder="Enter Original Price" style={styles.inputFeilds} onChangeText={setItemPrice} keyboardType="numeric"/>
+                <TextInput  placeholder="Enter Discount Price"  style={styles.inputFeilds} value={discountPercentage} onChangeText={handleTextChange} keyboardType="numeric" />
+            </View>
+            <View style={{flex:4, justifyContent:'center'}}>
+                <Pressable  onPress={handleCalculate} style={styles.button}>
+                    <Text style={styles.buttonText}>Calculated</Text>
+                </Pressable>
+            </View>
+        </View>
+        <View style={{flex:8 , flexDirection:"row",justifyContent:'center'}}>
+            <View style={styles.itemContainer}>
+                <Text style={styles.label}>You Save</Text>
+                <Text style={styles.value}>{youSave}</Text>
+            </View>
+            <View style={styles.itemContainer}>
+                <Text style={styles.label}>Final Price</Text>
+                <Text style={styles.value}>{FinalPrice}</Text>
+            </View>
+        </View>
+    </SafeAreaView>
+);
+}
+
+
+const styles= StyleSheet.create({
+mainView:{
+    flex:9,
+},
+inputAreaView:{
+    flex:4, 
+    justifyContent:'center',
+    alignItems:'center'
+},
+inputFeilds:{
+    fontSize:15,
+    height: 45,
+    width:300,
+    margin: 12,
+    borderBottomWidth: 1.5,
+    padding: 10,
+  },
+button:{
+    padding:10,
+    fontWeight:'bold',
+    width:150,
+    height:50,
+    justifyContent:'center',
+    alignItems:'center',
+    textAlign:'center',
+    backgroundColor:'#FB5B5A',
+    borderRadius:16,
+    color:'white',
+},
+buttonText:{
+    fontSize:15,
+    color:'white',
+    fontWeight:'bold'
+},
+itemContainer: {
+    marginHorizontal: 10,
+    alignItems: 'center',
+},
+label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+},
+value: {
+    fontSize: 14,
+  },
+});
+export default DiscountCalculator;

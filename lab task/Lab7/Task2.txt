@@ -1,0 +1,151 @@
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, SafeAreaView, Pressable, StyleSheet } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
+const StudentRecord = () => {
+    const [name, setName] = useState('');
+    const [gpa, setGpa] = useState('');
+    const [record, setRecord] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+
+    const handleSubmit = () => {
+        if (name.trim() !== "" && gpa !== "") {
+            setRecord([...record, { stdName: name, stdGpa: gpa }]);
+            setName('');
+            setGpa('');
+        }
+    };
+
+    const removeAllRecord = () => {
+        setRecord([]);
+    };
+
+    const deleteRecord = (index) => {
+        const updatedRecords = [...record];
+        updatedRecords.splice(index, 1);
+        setRecord(updatedRecords);
+    };
+
+    const filteredRecords = record.filter((item) =>
+        item.stdName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const handleGpaChange = (num) => {
+        if(num ==1.00 ||num <=4.00){
+            setGpa(num);
+        }else{
+            setGpa(0);
+        }
+    }
+
+    return (
+        <SafeAreaView style={styles.mainView}>
+            <View style={styles.container}>
+                <View style={styles.inputContainer}>
+                    <View style={styles.inputField}>
+                        <Text>Name :</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Enter Name'
+                            onChangeText={setName}
+                            value={name}
+                        />
+                    </View>
+                    <View style={styles.inputField}>
+                        <Text>GPA</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder='Enter GPA'
+                            value={gpa}
+                            onChangeText={handleGpaChange}
+                            keyboardType='decimal-pad'
+                            maxLength={4}
+                        />
+                    </View>
+                </View>
+                <View style={styles.btnContainer}>
+                    <Button title='Add' onPress={handleSubmit} />
+                    <Button title='Search' onPress={() => setSearchQuery(name)} />
+                </View>
+                <View style={styles.records}>
+                    <Text style={styles.recordsTitle}>Records</Text>
+                    <View>
+                        {filteredRecords.map((item, index) => (
+                            <View key={index} style={styles.record}>
+                                <Text>{item.stdName} {item.stdGpa}</Text>
+                                <Pressable onPress={() => deleteRecord(index)}>
+                                    <MaterialCommunityIcons name="delete" size={20} color="black" />
+                                </Pressable>
+                            </View>
+                        ))}
+                    </View>
+                    <View style={styles.clearButton}>
+                        <Button title='Clear All' onPress={removeAllRecord} />
+                    </View>
+                </View>
+            </View>
+        </SafeAreaView>
+    );
+};
+
+const styles = StyleSheet.create({
+    mainView: {
+        flex: 1,
+        backgroundColor: '#ffffff',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    container: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        width: '80%', 
+        backgroundColor: '#f0f0f0', 
+        borderRadius: 10, 
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
+    inputField: {
+        flex: 1,
+        marginRight: 10,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+    },
+    btnContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 10,
+    },
+    records: {
+        marginTop: 20,
+    },
+    recordsTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+    },
+    record: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: 5,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+    },
+    clearButton: {
+        marginTop: 10,
+    },
+});
+
+export default StudentRecord;
