@@ -1,0 +1,49 @@
+import React from 'react';
+import { Button , Text,Image, View } from 'react-native';
+const AppScreen2 = () => { 
+return<View style={{flex:1 , backgroundColor:'black',padding:20}}>
+        <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 22 }}>Alarm</Text>
+     <Text style={{ color: 'white', fontSize: 19 }}>Edit       +</Text>
+       </View>
+    <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 30 }}>06:00</Text>
+     <Button title="set" />
+    </View>
+        <View>
+           <Text style={{ color: 'white', fontSize: 15 }}>am,    Everyday</Text>
+        </View>    
+    <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 30 }}>13:30</Text>
+     <Button title="set" />
+    </View>
+     <View>
+       <Text style={{ color: 'white', fontSize: 15 }}> Everyday</Text>
+     </View>
+     <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 30 }}>04:00</Text>
+     <Button title="set" />
+    </View>
+        <View>
+           <Text style={{ color: 'white', fontSize: 15 }}>Saturday</Text>
+        </View>    
+    <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 30 }}>10:30</Text>
+     <Button title="set" />
+    </View>
+     <View>
+       <Text style={{ color: 'white', fontSize: 15 }}> Sunday</Text>
+     </View>
+           
+    <View style={{flex:3 , backgroundColor:'black',padding:20}}></View>
+    <View style={{ height: 60, backgroundColor: 'Black', padding: 10, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+     <Text style={{ color: 'white', fontSize: 22,color:'skyblue' }}>Alarm</Text>
+     <Text style={{ color: 'white', fontSize: 19 }}>World Clock       Stop Watch</Text>
+       </View>
+           
+
+
+     </View>  
+         
+}
+export default AppScreen2;
